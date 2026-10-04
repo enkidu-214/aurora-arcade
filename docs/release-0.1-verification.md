@@ -1,6 +1,6 @@
 # Release 0.1 验证记录
 
-日期：2026-10-04。版本名 `0.1` / 版本码 `2`。发布 APK 大小 924454 字节，SHA-256 见 `releases/SHA256SUMS`。
+日期：2026-10-04。版本名 `0.1` / 版本码 `2`。发布 APK 大小 924454 字节，SHA-256 见 [v0.1 对应的 SHA256SUMS](https://github.com/enkidu-214/aurora-arcade/releases/download/v0.1/SHA256SUMS)。
 
 ## 构建与包检查
 

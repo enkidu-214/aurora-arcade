@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
         session = GameSession(GameStore(applicationContext),Feedback(window.decorView))
         setContent {
             DisposableEffect(session.screen,session.paused,session.state.gameOver) {
-                if(session.screen=="game" && !session.paused && !session.state.gameOver) {
+                if(session.screen!="home" && !session.paused && (session.screen!="game" || !session.state.gameOver)) {
                     window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                 } else {
                     window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
             DisposableEffect(session.screen) {
                 val controller=WindowCompat.getInsetsController(window,window.decorView)
                 val previousBehavior=controller.systemBarsBehavior
-                if(session.screen=="game") {
+                if(session.screen!="home") {
                     controller.systemBarsBehavior=WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
                     controller.hide(WindowInsetsCompat.Type.systemBars())
                 } else {
@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
         super.onWindowFocusChanged(hasFocus)
         if(!hasFocus && ::session.isInitialized) {
             session.clearInputs()
-            if(session.screen == "game" && !session.paused && !session.state.gameOver) session.pause()
+            if(session.screen != "home" && !session.paused && (session.screen!="game" || !session.state.gameOver)) session.pause()
         }
     }
     override fun onPause() { if(::session.isInitialized) session.pause(); super.onPause() }

@@ -17,8 +17,8 @@ android {
         applicationId = "com.aurora.arcade"
         minSdk = 26
         targetSdk = 36
-        versionCode = 3
-        versionName = "0.2"
+        versionCode = 5
+        versionName = "0.4"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures { compose = true }

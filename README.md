@@ -1,16 +1,51 @@
 # 微光游乐场 · Aurora Arcade
 
-原生安卓小游戏合集，首版包含完整的俄罗斯方块。支持离线、时光回退、经典挑战、自动保存和可调手感。
+原生安卓小游戏合集，当前版本 0.4 包含十款可离线游玩的游戏：超新星弹球、俄罗斯方块、2048、贪吃蛇、打砖块、扫雷、推箱子、连连看、泡泡消除和蜘蛛纸牌。不包含数独。
+
+## 十款小游戏
+
+首页直接选择游戏，每款游戏独立保存进度。右上角「玩法」查看规则，「暂停」可以继续、重新开始或返回游乐场。进入后台或失去窗口焦点会自动暂停；返回后手动继续，避免错过操作。
+
+| 游戏 | 主要操作与功能 |
+| --- | --- |
+| 超新星弹球 | 双指挡板、蓄力开球、高架轨道、连击倍率、任务链与核心战、主动三球爆发、震台救球 |
+| 俄罗斯方块 | 原有经典 / 时光模式，大按键移动旋转、暂存、快速落底、最近一块回顶部 |
+| 2048 | 滑动合并，也可用方向按钮；支持撤销一步，合成 2048 后可继续挑战 |
+| 贪吃蛇 | 滑动或方向键转弯，经典加速 / 固定速度，食物与碰撞规则 |
+| 打砖块 | 手指拖动控制挡板，反弹球、清除砖块、生命与关卡 |
+| 扫雷 | 安全首次开格，开格 / 插旗模式，难度选择，胜负判断 |
+| 推箱子 | 方向键推动箱子到目标，渐进关卡、撤销和重试 |
+| 连连看 | 相同图案以不超过两次转弯的路线相连，提示、洗牌，无倒计时压力 |
+| 泡泡消除 | 瞄准发射、墙壁反弹，三个同色相连消除，悬空泡泡一起落下 |
+| 蜘蛛纸牌 | 单花色 104 张牌、十列牌堆、五轮发牌，K 到 A 完整序列收牌，提示与撤销 |
+
+蜘蛛纸牌点击要移动的明牌序列，再点击目标列；空列可以接收任意合法序列。存在空列时不能发新一轮牌。长牌列可以滚动，所有进度均保存在本机。
+
+<img src="docs/screenshots/pinball-0.4/home.png" alt="十款游戏首页" width="220" /> <img src="docs/screenshots/arcade-0.3/spider.png" alt="蜘蛛纸牌" width="220" /> <img src="docs/screenshots/arcade-0.3/bubble.png" alt="泡泡消除" width="220" />
 
 ## 安装
 
-从 [Release 0.2](https://github.com/enkidu-214/aurora-arcade/releases/tag/v0.2) 下载 `aurora-arcade-0.2.apk`，发送到 Android 手机后点击安装。安装包经过 R8 优化，沿用 0.1 的发布签名，可直接覆盖升级，无需网络、登录或账号。校验文件为同页的 `SHA256SUMS`。
+从 [Release 0.4](https://github.com/enkidu-214/aurora-arcade/releases/tag/v0.4) 下载 [aurora-arcade-0.4.apk](https://github.com/enkidu-214/aurora-arcade/releases/download/v0.4/aurora-arcade-0.4.apk)，发送到 Android 手机后点击安装。版本 0.4（versionCode 5）沿用发布签名，可覆盖旧版本保留存档，无需网络、登录或账号。校验文件为同页的 `SHA256SUMS` 和 `aurora-arcade-0.4.apk.sha256`。
 
-最低系统 Android 8.0（API 26），编译 / 目标系统 Android 16（API 36）。具体实测设备和流畅度结果见 [0.1 验证记录](docs/release-0.1-verification.md)。
+本地安装包保存在 `releases/aurora-arcade-0.4.apk`。测试结果见 [弹球版本验证](docs/pinball-0.4-verification.md)，此前九款游戏的验证记录见 [0.3 验证](docs/arcade-0.3-verification.md)。历史安装包可在 [全部 Releases](https://github.com/enkidu-214/aurora-arcade/releases) 获取。
+
+最低系统 Android 8.0（API 26），编译 / 目标系统 Android 16（API 36）。新版本的设备测试和流畅度结果见 [0.4 验证记录](docs/pinball-0.4-verification.md)，历史数据见 [0.1 验证记录](docs/release-0.1-verification.md)。
 
 如果安装过发布前的本地测试包，因为签名不同，需要先卸载测试包再安装此版本；卸载会清除本地对局和记录。之后的正式版本保留同一发布签名，可直接覆盖升级。
 
-## 操作
+## 超新星弹球
+
+原创太空反应堆球台，采用固定透视、带高度的坡道与阴影，优先保证手机上的球路清晰和双指操作。左右挡板在按下时抬起，松开时回落；中央按钮按住蓄力、松手发射，青色区松手获得技巧奖励。三次机会用完结束一局。
+
+击球积攒能量，满 100 后主动触发「超新星」：三球在场、20 秒双倍奖励、8 秒自动救球，坡道和核心变成大奖目标。连续命中不同部件形成连击，点亮整组靶标或顶端球道提高倍率。任务链依次要求六次弹射器命中、三枚不同靶标、左右两条轨道和五次核心命中，完成后进入下一星区。「震台」提供向上救球冲量，冷却三秒。
+
+物理以每秒 240 次固定步长计算，挡板通过真实运动表面推动球，按住不重复增加冲量。渲染使用帧时钟，静态球台几何缓存，HUD 每 100 ms 更新。15 种原创音效区分普通碰撞、轨道、连击、任务与大奖；保留静音、关闭振动和减少动态效果设置。暂停或离开保存球的位置、速度、多球、任务、连击和奖励计时，取消未完成的蓄力和按压。
+
+玩法参考 [Pinball FX 的任务、轨道和多球设计](https://www.pinballfx.com/press/table_guides/Agents_Table_Guide_By_ShoryukenToTheChin.pdf) 与 [Demon’s Tilt 的首领战思路](https://www.demonstilt.com/)，球台、美术和音效均为本项目实现。
+
+<img src="docs/screenshots/pinball-0.4/ready.png" alt="超新星弹球球台" width="260" /> <img src="docs/screenshots/pinball-0.4/nova.png" alt="三球超新星模式" width="260" />
+
+## 俄罗斯方块操作
 
 - 左 / 右：按下立即移动；长按连续移动。
 - 向下：按住加速下降。

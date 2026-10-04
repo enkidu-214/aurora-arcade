@@ -1,6 +1,6 @@
 # 构建与发布
 
-Release 0.1 的版本名称为 `0.1`，版本码为 `2`，标签为 `v0.1`。发布 APK 使用独立 RSA 发布签名，和早期本地测试签名不同。
+当前 Release 0.4 的版本名称为 `0.4`，版本码为 `5`，标签为 `v0.4`。发布 APK 沿用 0.1 起的独立 RSA 发布签名，和早期本地测试签名不同。
 
 ## 签名
 
@@ -22,7 +22,7 @@ keyPassword=<原来的密码>
 安装 JDK 17 或 21、Android SDK 36、Build Tools 36.0.0，然后运行：
 
 ```sh
-./gradlew :core:test :app:lintRelease :app:assembleRelease :app:assembleDebug
+./gradlew :core:test :app:testDebugUnitTest :app:lintRelease :app:assembleRelease :app:assembleDebug
 ```
 
 发布前必须安装优化后的 release 包，在目标系统检查移动 / 长按 / 双向旋转 / 软降 / 暂存 / 消行 / 落底 / 单步撤回 / 失败后撤回 / 暂停恢复，以及屏幕边缘系统手势。记录设备、系统、帧数据和实测范围。
@@ -31,12 +31,14 @@ keyPassword=<原来的密码>
 python3 scripts/check-apk-alignment.py app/build/outputs/apk/release/app-release.apk
 zipalign -c -P 16 4 app/build/outputs/apk/release/app-release.apk
 apksigner verify --verbose --print-certs app/build/outputs/apk/release/app-release.apk
-cp app/build/outputs/apk/release/app-release.apk releases/aurora-arcade-0.1.apk
+cp app/build/outputs/apk/release/app-release.apk releases/aurora-arcade-0.4.apk
 cd releases
-shasum -a 256 aurora-arcade-0.1.apk > SHA256SUMS
+shasum -a 256 aurora-arcade-0.4.apk > SHA256SUMS
 shasum -a 256 -c SHA256SUMS
 ```
 
 Git 中保留源码、校验和验证记录；APK 上传至对应标签的 GitHub Release。`docs/ci/android.yml` 是仅验证构建的工作流模板，既不持有发布私钥，也不自动发布；当前 GitHub 授权缺少 `workflow`，因此模板尚未安装到 `.github/workflows/`。
 
-本项目为独立开发的离线方块游戏，与 Tetris 官方没有关联；未打包其图片、商标、音乐或代码。
+0.4 额外验证十款游戏的入口及保存，并检查弹球的真实双指操作、蓄力取消、三球爆发、任务、重开和冷启动恢复。记录见 [弹球版本验证](pinball-0.4-verification.md)。
+
+本项目为独立开发的离线小游戏合集，与 Tetris 官方没有关联；未打包其图片、商标、音乐或代码。

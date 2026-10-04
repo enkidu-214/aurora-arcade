@@ -2,6 +2,7 @@ package com.aurora.arcade
 
 import androidx.compose.runtime.*
 import com.aurora.arcade.core.*
+import com.aurora.arcade.core.games.PinballEvent
 
 class GameSession(private val store: GameStore,private val feedback: Feedback) {
     var engine = store.load() ?: GameEngine(System.nanoTime()); private set
@@ -30,6 +31,14 @@ class GameSession(private val store: GameStore,private val feedback: Feedback) {
         screen = "game"; paused = false; hasSaved = true; store.save(engine)
     }
     fun continueGame() { screen = "game"; resume() }
+    fun openMiniGame(id: String) { pause(); screen = "mini:$id"; resume() }
+    fun miniFeedback(celebrate: Boolean = false) {
+        if (paused) return
+        val piece = Piece(Kind.T)
+        feedback.play(GameEvent(0, if (celebrate) EventType.CLEAR else EventType.ROTATE,
+            piece, piece, rows = if (celebrate) listOf(0) else emptyList()), settings)
+    }
+    fun pinballFeedback(event: PinballEvent) { if (!paused) feedback.pinball(event, settings) }
     fun home() { pause(); store.record(engine.mode,engine.committedScore); best = store.best(engine.mode); screen = "home" }
     fun pause() { paused = true; input.clear(); feedback.stop(); lastFrame = 0; if(hasSaved) store.save(engine) }
     fun resume() { paused = false; input.clear(); lastFrame = 0; remainder = 0 }

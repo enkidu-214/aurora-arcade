@@ -7,10 +7,12 @@ import android.view.HapticFeedbackConstants
 import android.view.View
 import com.aurora.arcade.core.EventType
 import com.aurora.arcade.core.GameEvent
+import com.aurora.arcade.core.games.PinballEvent
 import java.util.concurrent.ConcurrentHashMap
 
 class Feedback(private val view: View) {
     private val audio = GameAudio(SoundPoolOutput(view.context.applicationContext))
+    private val pinballAudio = PinballAudio(PinballAudioPlayer(view.context.applicationContext))
 
     fun play(event: GameEvent?, settings: Settings, combo: Int = 0) {
         if (settings.haptic) view.performHapticFeedback(
@@ -19,8 +21,17 @@ class Feedback(private val view: View) {
         audio.play(event, settings.sound, combo)
     }
 
-    fun stop() { audio.stop() }
-    fun close() { audio.close() }
+    fun pinball(event: PinballEvent, settings: Settings) {
+        val haptic = pinballAudio.play(event, settings.sound, settings.haptic) ?: return
+        view.performHapticFeedback(when (haptic) {
+            PinballHaptic.TICK -> HapticFeedbackConstants.CLOCK_TICK
+            PinballHaptic.CLICK -> HapticFeedbackConstants.CONTEXT_CLICK
+            PinballHaptic.REWARD -> HapticFeedbackConstants.LONG_PRESS
+        })
+    }
+
+    fun stop() { audio.stop(); pinballAudio.stop() }
+    fun close() { audio.close(); pinballAudio.close() }
 }
 
 private class SoundPoolOutput(context: Context) : SoundOutput {

@@ -26,7 +26,7 @@ jobs:
       - name: Install Android 16 SDK
         run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
       - name: Test, lint, and build
-        run: ./gradlew :core:test :app:lintRelease :app:assembleRelease :app:assembleDebug --no-daemon
+        run: ./gradlew :core:test :app:testDebugUnitTest :app:lintRelease :app:assembleRelease :app:assembleDebug --no-daemon
       - name: Check 16 KB native and APK alignment
         run: |
           python3 scripts/check-apk-alignment.py app/build/outputs/apk/release/app-release-unsigned.apk
@@ -37,6 +37,7 @@ jobs:
           name: android-build-reports
           path: |
             core/build/reports/tests/test/
+            app/build/reports/tests/testDebugUnitTest/
             app/build/reports/lint-results-release.*
             app/build/outputs/apk/debug/*.apk
             app/build/outputs/apk/release/*unsigned.apk
