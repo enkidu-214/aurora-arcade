@@ -34,3 +34,5 @@ Task 4: 交付优化 APK（924434 字节）、调试 APK、SHA256 校验、READM
 柔和配色调整：外围从银白改为深蓝灰，五个主按钮统一低饱和蓝灰，辅助键保留少量淡紫/灰绿区分，降低边框与高光亮度。保留官方方块采样色和现有布局。检查实际显示与文字对比，release/debug、lint、APK安装、签名与SHA256通过，最新截图为calm-theme-game.png。
 
 扩大棋盘：合并顶部为48dp单行，隐藏游戏系统栏、收紧页面/按钮间距，保持68dp大按键。棋盘按正方格及边框计算最大尺寸，正常屏面积增加约34%，小屏大字体约72%。检查系统栏在游戏隐藏、回首页恢复，移动/旋转/落底/撤回/暂存通过，最终构建、lint、签名和SHA256通过。新截图large-board-game.png、large-board-small.png。
+
+Release 0.1：compile/target SDK 36、AGP 8.10.1、独立发布签名和版本码2。修正游戏分类、帧时钟读取阶段、结束画面停止更新及失败后撤回计时；常亮仅用于进行中的游戏。24项核心测试、最终包构建/lint/签名/16KB静态检查、干净源码构建通过；Android16实测120轮连按约60秒，3628帧/1帧超时/无崩溃；Android11小屏大字体回归通过。新建公开仓库enkidu-214/aurora-arcade，正式发布记录见release-0.1-verification.md。GitHub工作流权限不足，CI配置保留为docs/ci/android.yml模板。

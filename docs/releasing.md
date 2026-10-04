@@ -37,6 +37,6 @@ shasum -a 256 aurora-arcade-0.1.apk > SHA256SUMS
 shasum -a 256 -c SHA256SUMS
 ```
 
-Git 中保留源码、校验和验证记录；APK 上传至对应标签的 GitHub Release。CI 只验证构建，既不持有发布私钥，也不自动发布。
+Git 中保留源码、校验和验证记录；APK 上传至对应标签的 GitHub Release。`docs/ci/android.yml` 是仅验证构建的工作流模板，既不持有发布私钥，也不自动发布；当前 GitHub 授权缺少 `workflow`，因此模板尚未安装到 `.github/workflows/`。
 
 本项目为独立开发的离线方块游戏，与 Tetris 官方没有关联；未打包其图片、商标、音乐或代码。

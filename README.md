@@ -48,7 +48,7 @@
 
 游戏外围采用柔和的深蓝灰渐变（`#263540` 到 `#324554`），搭配低亮度蓝灰边框、灰白文字和同色系主按钮；回顶部 / 落底只用低饱和淡紫与灰绿轻微区分。按钮高光已减弱，避免大面积白色和亮边。七种方块仍使用官网取样色，棋盘保留黑底灰网格。方块色值与采样位置见 [配色记录](docs/official-colors.md)。
 
-<img src="docs/screenshots/large-board-game.png" alt="游戏界面" width="280" />
+<img src="docs/screenshots/api36-game.png" alt="游戏界面" width="280" />
 
 小屏大字体效果见 [截图](docs/screenshots/large-board-small.png)。
 
