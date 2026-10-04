@@ -22,6 +22,7 @@ class GameSession(private val store: GameStore,private val feedback: Feedback) {
     private var lastEvent = 0L
     private fun makeInput() = RepeatController(if(settings.fastControls) 100 else 140,if(settings.fastControls) 28 else 40)
     fun newGame(mode: Mode) {
+        feedback.stop()
         if(hasSaved) store.record(engine.mode,state.score)
         engine = GameEngine(System.nanoTime(),mode)
         state = engine.state; best = store.best(mode); canUndo = false
@@ -30,9 +31,12 @@ class GameSession(private val store: GameStore,private val feedback: Feedback) {
     }
     fun continueGame() { screen = "game"; resume() }
     fun home() { pause(); store.record(engine.mode,engine.committedScore); best = store.best(engine.mode); screen = "home" }
-    fun pause() { paused = true; input.clear(); lastFrame = 0; if(hasSaved) store.save(engine) }
+    fun pause() { paused = true; input.clear(); feedback.stop(); lastFrame = 0; if(hasSaved) store.save(engine) }
     fun resume() { paused = false; input.clear(); lastFrame = 0; remainder = 0 }
-    fun updateSettings(value: Settings) { settings = value; store.settings(value); input.clear(); input = makeInput() }
+    fun updateSettings(value: Settings) {
+        if (!value.sound) feedback.stop()
+        settings = value; store.settings(value); input.clear(); input = makeInput()
+    }
     fun press(action: Action) {
         if(paused || screen != "game" || (state.gameOver && action != Action.UNDO)) return
         input.press(action).forEach(::command)
@@ -82,7 +86,7 @@ class GameSession(private val store: GameStore,private val feedback: Feedback) {
             lastEvent = newEvent.id
             // The frame loop may be asleep after game over; start undo effects at input time.
             effect = newEvent; effectStart = System.nanoTime()
-            feedback.play(newEvent.type,settings)
+            feedback.play(newEvent, settings, state.combo)
             if(newEvent.type in listOf(EventType.DROP,EventType.CLEAR,EventType.LOCK,EventType.UNDO,EventType.HOLD)) {
                 store.save(engine)
                 // A provisional hard-drop score is not committed to records until it survives undo.

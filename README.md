@@ -4,7 +4,7 @@
 
 ## 安装
 
-从 [Release 0.1](https://github.com/enkidu-214/aurora-arcade/releases/tag/v0.1) 下载 `aurora-arcade-0.1.apk`，发送到 Android 手机后点击安装。安装包经过 R8 优化，使用独立发布签名，无需网络、登录或账号。校验文件为同页的 `SHA256SUMS`。
+从 [Release 0.2](https://github.com/enkidu-214/aurora-arcade/releases/tag/v0.2) 下载 `aurora-arcade-0.2.apk`，发送到 Android 手机后点击安装。安装包经过 R8 优化，沿用 0.1 的发布签名，可直接覆盖升级，无需网络、登录或账号。校验文件为同页的 `SHA256SUMS`。
 
 最低系统 Android 8.0（API 26），编译 / 目标系统 Android 16（API 36）。具体实测设备和流畅度结果见 [0.1 验证记录](docs/release-0.1-verification.md)。
 
@@ -34,6 +34,8 @@
 
 规则计算不依赖屏幕帧率。Canvas 通过 Compose 帧时钟更新，输入立即修改逻辑位置，视觉位置做短距离平滑过渡。包括玻璃方块、落点轮廓、旋转过渡、落底光轨、消行碎片和回退上溯。设置中可关闭音效、振动或动态效果。
 
+0.2 新增 9 种原创街机音效：单消到四消逐级增强，连续消除逐步升调；落底、锁定、旋转、暂存和回顶部各有独立声音。短音效在启动时预加载，操作时直接播放；暂停、静音或撤回会停止相应尾音。音频由 `scripts/generate-sounds.py` 离线生成，不使用其他游戏的采样。
+
 方块已去掉所有装饰花纹，使用 [Tetris 官网网页版](https://play.tetris.com/) 游戏内普通方块贴图的实际采样色。官网方块是渐变材质，并非单一纯色；以下为贴图中心色，明暗边缘也使用同一贴图的采样值。棋盘、活动块、暂存、后续预览和首页展示共用 Canvas 绘制，无新增贴图。
 
 | 方块 | 颜色 | 中心色 |
@@ -59,7 +61,7 @@
 命令行：
 
 ```sh
-./gradlew :core:test :app:lintRelease :app:assembleRelease
+./gradlew :core:test :app:testReleaseUnitTest :app:lintRelease :app:assembleRelease
 ```
 
 本机可使用 `bash scripts/build-local.sh` 自动选择兼容的 JDK 与项目本地 SDK。仓库提供 [GitHub Actions 配置模板](docs/ci/android.yml)，当前授权不包含工作流写入权限，因此尚未启用自动构建。签名私钥不会上传到 GitHub。
